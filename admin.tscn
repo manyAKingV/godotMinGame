@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=3 uid="uid://cffttr0k6asmt"]
+
+[ext_resource type="Script" path="res://admin.gd" id="1_lg6wi"]
+[ext_resource type="Material" uid="uid://ccexymp1mnrqk" path="res://materail/huojian.tres" id="2_bquiy"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cyffl"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ib8t4"]
+top_radius = 0.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wmlmw"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_be7uc"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_y1fc1"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_81de7"]
+
+[node name="Node3D" type="RigidBody3D"]
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+max_contacts_reported = 10
+contact_monitor = true
+linear_damp = 1.0
+angular_damp = 3.0
+script = ExtResource("1_lg6wi")
+thrust = 732.433
+rs = 100.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.270161, 0, 0, 0, 0.754769, 0, 0, 0, 0.29692, 0, -0.196102, 0.00369978)
+material_override = ExtResource("2_bquiy")
+mesh = SubResource("CylinderMesh_cyffl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1.0012, 0, 0, 0, 0.211869, 0, 0, 0, 0.974065, 0, 1.19605, -0.0124613)
+material_override = ExtResource("2_bquiy")
+mesh = SubResource("CylinderMesh_ib8t4")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1.49108, 0, 0, 0, 0.153709, 0, 0, 0, 1.61595, 0, 0.520973, -0.0124605)
+mesh = SubResource("CylinderMesh_wmlmw")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1.0012, 0, 0, 0, 0.32985, 0, 0, 0, 0.974065, 0, -0.671701, -1.33046)
+material_override = ExtResource("2_bquiy")
+mesh = SubResource("CylinderMesh_be7uc")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="MeshInstance3D/MeshInstance3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.61865)
+material_override = ExtResource("2_bquiy")
+mesh = SubResource("CylinderMesh_be7uc")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D/MeshInstance3D3/MeshInstance3D5"]
+transform = Transform3D(0.506496, 0, 0, 0, 0.00015024, 0.695398, 0, -0.971105, 1.23379e-05, 0, 0.0791087, -1.25277)
+mesh = SubResource("CylinderMesh_y1fc1")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.0247584, 0, -0.973768, 0, 0.32985, 0, 1.00089, 0, 0.0240875, 1.29135, -0.671701, -0.160067)
+material_override = ExtResource("2_bquiy")
+mesh = SubResource("CylinderMesh_be7uc")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="MeshInstance3D/MeshInstance3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.61865)
+material_override = ExtResource("2_bquiy")
+mesh = SubResource("CylinderMesh_be7uc")
+skeleton = NodePath("../../MeshInstance3D")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="MeshInstance3D/MeshInstance3D4/MeshInstance3D5"]
+transform = Transform3D(0.506496, 0, 0, 0, 0.00015024, 0.695398, 0, -0.971105, 1.23379e-05, 0, 0.0791087, -1.25277)
+mesh = SubResource("CylinderMesh_y1fc1")
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.856149, 0, 0, 0, 1, 0, -0.0792381, 0)
+shape = SubResource("CylinderShape3D_81de7")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

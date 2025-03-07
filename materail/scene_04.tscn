@@ -1,0 +1,164 @@
+[gd_scene load_steps=12 format=3 uid="uid://10kggys1ghbc"]
+
+[ext_resource type="Script" path="res://scripts/end.gd" id="1_mh7ro"]
+[ext_resource type="PackedScene" uid="uid://cffttr0k6asmt" path="res://admin.tscn" id="2_ilf88"]
+[ext_resource type="Script" path="res://scripts/animatable.gd" id="3_hp1ok"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qw3av"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_fmbj5"]
+sky_material = SubResource("ProceduralSkyMaterial_qw3av")
+
+[sub_resource type="Environment" id="Environment_hec4k"]
+background_mode = 2
+sky = SubResource("Sky_fmbj5")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n0kl3"]
+albedo_color = Color(0, 0.675504, 0.209833, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o0ho7"]
+albedo_color = Color(0.81231, 0.298125, 0.109049, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_0isrd"]
+points = PackedVector3Array(-1, -1, -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, -1, 1, 1, 1, -1, -1, -1, -1, 1, -1, 1, -1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_f5e23"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dpuox"]
+albedo_color = Color(0.473853, 0.629266, 0.930974, 1)
+
+[node name="scene_04" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hec4k")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="strat" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.1, 0)
+use_collision = true
+size = Vector3(2, 0.2, 2)
+material = SubResource("StandardMaterial3D_n0kl3")
+
+[node name="end" type="CSGBox3D" parent="." groups=["group"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.1, 0)
+use_collision = true
+size = Vector3(2, 0.2, 2)
+material = SubResource("StandardMaterial3D_o0ho7")
+script = ExtResource("1_mh7ro")
+file_path = "res://scene.tscn"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.979575, 0.201078, 0, -0.201078, 0.979575, 0, 3, 5)
+
+[node name="admin" parent="." instance=ExtResource("2_ilf88")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1.1, 0)
+
+[node name="animatable" type="AnimatableBody3D" parent="." groups=["knocked"]]
+script = ExtResource("3_hp1ok")
+destination = Vector3(0, 2, 0)
+duration = 3.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="animatable"]
+transform = Transform3D(0.96542, 0, 0, 0, 0.423464, 0, 0, 0, 0.52299, 0, 2, 0)
+shape = SubResource("ConvexPolygonShape3D_0isrd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="animatable"]
+transform = Transform3D(2, 0, 0, 0, 0.84824, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_f5e23")
+
+[node name="floor2" type="CSGBox3D" parent="." groups=["knocked"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor2" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.173123, -3.45442, 0, 0.435726, -1.37252, 0, 0, 0, 1, -11.2929, 0, -0.0427151)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor3" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(0.225107, -3.26065, 0, 0.411285, 1.78464, 0, 0, 0, 1, -10.2432, 5.54477, -0.0427151)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor4" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(0.225107, -3.26065, 0, 0.411285, 1.78464, 0, 0, 0, 1, 10.9996, 1.76845, -0.0427151)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor5" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.302941, -2.83701, 0, 0.357849, -2.4017, 0, 0, 0, 1, 10.3168, 6.47493, -0.0427151)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor6" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.420165, -0.377183, 0, 0.0398431, -3.97759, 0, 0, 0, 1, 1.81745, 8.17949, -0.428277)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor7" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.409961, 0.949386, 0, -0.100287, -3.88099, 0, 0, 0, 1, -5.99085, 8.17949, -0.428277)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor8" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.393142, -1.45323, 0, 0.153509, -3.72177, 0, 0, 0, 1, 8.66856, 8.17949, -0.428277)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor9" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-1.36628, -0.295069, 0, 0.0883055, -4.56538, 0, 0, 0, 1, 2.6277, -1.48772, -3.4625)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor10" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.152343, -4.44549, -0.375148, 0.00823088, -6.35593, 0.742058, -0.113871, 5.488, 0.555531, 9.82506, 1.69932, -5.51236)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor11" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.187354, -1.48658, -0.0837018, 0.00823089, -6.35593, 0.742058, -0.0327621, 6.90439, 0.66509, 6.20037, 1.69932, -5.51236)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor12" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.169628, 2.94689, 0.331504, 0.00823089, -6.35593, 0.742058, 0.0860316, 6.41844, 0.582628, 1.62991, 1.69932, -5.51236)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor13" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.169628, 2.94689, 0.331504, 0.00823089, -6.35593, 0.742058, 0.0860316, 6.41844, 0.582628, -10.225, 1.69932, -5.51236)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor14" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.0575572, 3.6246, 0.41299, 0.00279286, -7.81764, 0.924462, 0.0291918, 7.89452, 0.725843, -5.02985, 1.69932, -5.51236)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
+
+[node name="floor15" type="CSGBox3D" parent="floor2" groups=["knocked"]]
+transform = Transform3D(-0.0492886, -5.86179, -0.50792, 0.00279286, -7.81764, 0.924462, -0.0416608, 6.41097, 0.662892, -1.81162, 1.69932, -5.51236)
+use_collision = true
+size = Vector3(20, 1, 3)
+material = SubResource("StandardMaterial3D_dpuox")
